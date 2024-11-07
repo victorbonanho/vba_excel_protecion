@@ -22,7 +22,7 @@ Private Sub Workbook_Open()
     ' Você pode configurar as permissões para cada aba individualmente
     Select Case nomeDaAba
         Case "ESTATISTICA"
-            usuariosPermitidos.Add "Victor Timotti | Grupo Araujo Engenharia"
+            usuariosPermitidos.Add "UsuarioRH1"
             usuariosPermitidos.Add "UsuarioRH2"
         Case "Financeiro"
             usuariosPermitidos.Add "UsuarioFinanceiro1"
