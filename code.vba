@@ -15,7 +15,7 @@ Private Sub Workbook_Open()
     Debug.Print "Nome da aba: " & nomeDaAba
     
     ' Adiciona usuários padrão que têm permissão para acessar todas as planilhas
-    usuariosPermitidos.Add "Odd"
+    usuariosPermitidos.Add "UsuarioAdmin1"
     usuariosPermitidos.Add "UsuarioAdmin2"
     
     ' Define a lista de usuários permitidos para cada aba
