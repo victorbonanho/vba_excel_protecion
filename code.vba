@@ -21,7 +21,7 @@ Private Sub Workbook_Open()
     ' Define a lista de usuários permitidos para cada aba
     ' Você pode configurar as permissões para cada aba individualmente
     Select Case nomeDaAba
-        Case "ESTATISTICA"
+        Case "RH"
             usuariosPermitidos.Add "UsuarioRH1"
             usuariosPermitidos.Add "UsuarioRH2"
         Case "Financeiro"
