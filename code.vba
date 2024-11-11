@@ -15,22 +15,30 @@ Private Sub Workbook_SheetActivate(ByVal Sh As Object)
     Debug.Print "Nome da aba: " & nomeDaAba
     
     ' Adiciona usuários padrão que têm permissão para acessar todas as planilhas
-    usuariosPermitidos.Add "UsuarioAdmin1"
-    usuariosPermitidos.Add "UsuarioAdmin2"
+    usuariosPermitidos.Add "Vanessa | Grupo Araujo Engenharia"
+    usuariosPermitidos.Add "Ivete Vespasiano | Grupo Araujo Engenharia"
+    ' usuariosPermitidos.Add "Victor Timotti | Grupo Araujo Engenharia"
     
     ' Define a lista de usuários permitidos para cada aba
-    ' Você pode configurar as permissões para cada aba individualmente
     Select Case nomeDaAba
-        Case "RH"
-            usuariosPermitidos.Add "UsuarioRH1"
-            usuariosPermitidos.Add "UsuarioRH2"
-        Case "Financeiro"
-            usuariosPermitidos.Add "UsuarioFinanceiro1"
-            usuariosPermitidos.Add "UsuarioFinanceiro2"
-        Case "Vendas"
-            usuariosPermitidos.Add "UsuarioVendas1"
-            usuariosPermitidos.Add "UsuarioVendas2"
-        ' Adicione mais casos conforme necessário
+        Case "Gustavo"
+            usuariosPermitidos.Add "Gustavo Migray | Grupo Araújo Engenharia"
+        Case "Andre"
+            usuariosPermitidos.Add "Andre Padua | Grupo Araujo Engenharia"
+        Case "Marco"
+            usuariosPermitidos.Add "Marco Oliveira | Grupo Araujo Engenharia"
+        Case "João"
+            usuariosPermitidos.Add "Joao Paulo | Grupo Araujo Engenharia"
+        Case "Fernanda"
+            usuariosPermitidos.Add "Fernanda Bueno"
+        Case "Renato"
+            usuariosPermitidos.Add "Renato Carvalho | Grupo Araujo Engenharia"
+        Case "Marcos"
+            usuariosPermitidos.Add "Renato Carvalho | Grupo Araujo Engenharia"
+        Case "Cleo"
+            usuariosPermitidos.Add "Qualidade | Grupo Araujo Engenharia"
+        Case "Vanessa"
+            usuariosPermitidos.Add "Vanessa | Grupo Araujo Engenharia"
     End Select
 
     ' Inicializa a variável de controle
@@ -44,24 +52,20 @@ Private Sub Workbook_SheetActivate(ByVal Sh As Object)
         End If
     Next usuario
 
-    ' Se o usuário não estiver na lista, protege a planilha
-    If Not usuarioPermitido Then
-    
-        ' MsgBox "Você não tem permissão para editar esta planilha!"
+    ' Desbloqueia a aba para garantir acesso a todos os usuários
+    With ThisWorkbook.Sheets(nomeDaAba)
+        .Unprotect ' Desprotege a planilha
 
-        ' Desprotege a planilha antes de alterar o bloqueio das células
-        With ThisWorkbook.Sheets(nomeDaAba)
-            .Unprotect ' Desprotege a planilha
-
-            ' Desbloqueia todas as células primeiro (caso contrário, elas ficam bloqueadas automaticamente)
+        ' Se o usuário for permitido, mantém a aba desprotegida
+        If usuarioPermitido Then
             .Cells.Locked = False
-            
-            ' Bloqueia todas as células novamente, para garantir que não sejam editadas
+        Else
+            ' Se o usuário não estiver na lista, protege a planilha
+            Debug.Print "Usuário não permitido: " & username
             .Cells.Locked = True
-
-            ' Protege a planilha, impedindo edição de células bloqueadas
             .Protect DrawingObjects:=True, Contents:=True, Scenarios:=True, UserInterfaceOnly:=True
-        End With
-    End If
+            ' MsgBox "Você não tem permissão para editar esta planilha!"
+        End If
+    End With
 End Sub
 
