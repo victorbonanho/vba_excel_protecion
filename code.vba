@@ -1,4 +1,4 @@
-Private Sub Workbook_Open()
+Private Sub Workbook_SheetActivate(ByVal Sh As Object)
     Dim username As String
     Dim usuariosPermitidos As New Collection
     Dim usuarioPermitido As Boolean
