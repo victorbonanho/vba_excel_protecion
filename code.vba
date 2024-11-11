@@ -1,6 +1,17 @@
+Private Sub Workbook_Open()
+    ' Executa a verificação de permissões ao abrir o arquivo
+    VerificarPermissoes
+End Sub
+
 Private Sub Workbook_SheetActivate(ByVal Sh As Object)
+    ' Executa a verificação de permissões ao mudar de aba
+    VerificarPermissoes
+End Sub
+
+Private Sub VerificarPermissoes()
     Dim username As String
-    Dim usuariosPermitidos As New Collection
+    Dim usuariosPermitidosCompletos As New Collection
+    Dim usuariosPermitidosNomes As New Collection
     Dim usuarioPermitido As Boolean
     Dim usuario As Variant
     Dim nomeDaAba As String
@@ -9,44 +20,59 @@ Private Sub Workbook_SheetActivate(ByVal Sh As Object)
     username = Application.username
 
     ' Captura o nome da aba ativa
-    nomeDaAba = ThisWorkbook.Sheets(ActiveSheet.Name).Name
+    nomeDaAba = ActiveSheet.Name
     
     Debug.Print "Usuário atual: " & username
     Debug.Print "Nome da aba: " & nomeDaAba
     
-    ' Adiciona usuários padrão que têm permissão para acessar todas as planilhas
-    usuariosPermitidos.Add "Vanessa | Grupo Araujo Engenharia"
-    usuariosPermitidos.Add "Ivete Vespasiano | Grupo Araujo Engenharia"
-    ' usuariosPermitidos.Add "Victor Timotti | Grupo Araujo Engenharia"
+    ' Adiciona usuários padrão com nome completo
+    usuariosPermitidosCompletos.Add "Vanessa | Grupo Araujo Engenharia"
+    usuariosPermitidosCompletos.Add "Ivete Vespasiano | Grupo Araujo Engenharia"
+    usuariosPermitidosCompletos.Add "Victor Timotti | Grupo Araujo Engenharia"
     
-    ' Define a lista de usuários permitidos para cada aba
+    ' Adiciona apenas os nomes
+    usuariosPermitidosNomes.Add "Vanessa"
+    usuariosPermitidosNomes.Add "Ivete Vespasiano"
+    usuariosPermitidosNomes.Add "Victor Timotti"
+    
+    ' Define a lista de usuários permitidos para cada aba individualmente
     Select Case nomeDaAba
         Case "Gustavo"
-            usuariosPermitidos.Add "Gustavo Migray | Grupo Araújo Engenharia"
+            usuariosPermitidosCompletos.Add "Gustavo Migray | Grupo Araújo Engenharia"
+            usuariosPermitidosNomes.Add "Gustavo Migray"
         Case "Andre"
-            usuariosPermitidos.Add "Andre Padua | Grupo Araujo Engenharia"
+            usuariosPermitidosCompletos.Add "Andre Padua | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Andre Padua"
         Case "Marco"
-            usuariosPermitidos.Add "Marco Oliveira | Grupo Araujo Engenharia"
+            usuariosPermitidosCompletos.Add "Marco Oliveira | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Marco Oliveira"
         Case "João"
-            usuariosPermitidos.Add "Joao Paulo | Grupo Araujo Engenharia"
+            usuariosPermitidosCompletos.Add "Joao Paulo | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Joao Paulo"
         Case "Fernanda"
-            usuariosPermitidos.Add "Fernanda Bueno"
+            usuariosPermitidosCompletos.Add "Fernanda Bueno | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Fernanda Bueno"
         Case "Renato"
-            usuariosPermitidos.Add "Renato Carvalho | Grupo Araujo Engenharia"
+            usuariosPermitidosCompletos.Add "Renato Carvalho | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Renato Carvalho"
         Case "Marcos"
-            usuariosPermitidos.Add "Renato Carvalho | Grupo Araujo Engenharia"
+            usuariosPermitidosCompletos.Add "Renato Carvalho | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Renato Carvalho"
         Case "Cleo"
-            usuariosPermitidos.Add "Qualidade | Grupo Araujo Engenharia"
+            usuariosPermitidosCompletos.Add "Qualidade | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Qualidade"
         Case "Vanessa"
-            usuariosPermitidos.Add "Vanessa | Grupo Araujo Engenharia"
+            usuariosPermitidosCompletos.Add "Vanessa | Grupo Araujo Engenharia"
+            usuariosPermitidosNomes.Add "Vanessa"
     End Select
 
     ' Inicializa a variável de controle
     usuarioPermitido = False
 
-    ' Verifica se o usuário está na lista de permitidos para a aba
-    For Each usuario In usuariosPermitidos
+    ' Verifica se o usuário está na lista de permitidos com o nome completo
+    For Each usuario In usuariosPermitidosCompletos
         If usuario = username Then
+            Debug.Print "Usuário permitido: " & usuario
             usuarioPermitido = True
             Exit For
         End If
@@ -64,8 +90,7 @@ Private Sub Workbook_SheetActivate(ByVal Sh As Object)
             Debug.Print "Usuário não permitido: " & username
             .Cells.Locked = True
             .Protect DrawingObjects:=True, Contents:=True, Scenarios:=True, UserInterfaceOnly:=True
-            ' MsgBox "Você não tem permissão para editar esta planilha!"
+            MsgBox "Você não tem permissão para editar esta planilha!"
         End If
     End With
 End Sub
-
